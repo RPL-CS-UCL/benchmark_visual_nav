@@ -34,6 +34,7 @@ from cloudrender.capturing import DirectCapture
 import cloudrender_rgbd_image as cr_rgbd
 from cloudrender.camera import PerspectiveCameraModel
 
+# The setting should be consist with settings in vehicle_simulator/system_xxx.launch
 default_sim_settings = {
 	"frame_rate": 30, # image frame rate
 	"width": 640, # horizontal resolution
@@ -41,7 +42,7 @@ default_sim_settings = {
 	"fov": 70.0, # horizontal FOV
 	"far_plane": 15.0,
 	"near_plane": 0.05,
-	"camera_offset_z": 0, # camera z-offset
+	"camera_offset_z": 0.5, # camera z-offset
 	"camera_info": True,
 	"color_sensor": True,  # RGB sensor
 	"depth_sensor": True,  # depth sensor
@@ -84,6 +85,9 @@ class ABTestGroup(Enum):
 class DemoRunner:
 	def __init__(self, sim_settings, simulator_demo_type):
 		self.set_sim_settings(sim_settings)
+
+		self.quat_w2c = np.array([0.5, 0.5, -0.5, -0.5])
+		self.trans_w2c = np.array([0.0, 0.0, 0.0])
 
 	def set_sim_settings(self, sim_settings):
 		self._sim_settings = sim_settings.copy()
@@ -134,7 +138,10 @@ class DemoRunner:
 		self.time = msg.header.stamp.to_sec()
 		orientation = msg.pose.pose.orientation
 		self.quat_w2b = np.array([orientation.w, orientation.x, orientation.y, orientation.z])
-		self.trans_w2b = np.array([msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z])
+		self.trans_w2b = np.array([\
+			msg.pose.pose.position.x, \
+			msg.pose.pose.position.y, \
+			msg.pose.pose.position.z + self._sim_settings['camera_offset_z']])
 
 		R_w2b = Rotation.from_quat(np.roll(self.quat_w2b, -1)).as_matrix()
 		R_offset = Rotation.from_quat(np.roll([0.5, 0.5, -0.5, -0.5], -1)).as_matrix()
@@ -146,8 +153,12 @@ class DemoRunner:
 		print('Start listening')
 		rospy.init_node("cloudrender_online")
 
-		self.quat_w2c = np.array([0.5, 0.5, -0.5, -0.5])
-		self.trans_w2c = np.array([0.0, 0.0, 1.412282849397663])
+		if (rospy.get_param('/vehicleSimulator/cameraOffsetZ')):
+			camera_offset_z = rospy.get_param('/vehicleSimulator/cameraOffsetZ')
+			if camera_offset_z != self._sim_settings['camera_offset_z']:
+				print('Not consist camera_offset_z {} (ros param):{} (preset)'.format(camera_offset_z, self._sim_settings['camera_offset_z']))
+				return
+
 		rospy.Subscriber("/state_estimation", Odometry, self.state_estimation_callback)	
 		self.time = 0
 
