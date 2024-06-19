@@ -195,9 +195,16 @@ class DemoRunner:
 			self.semantic_image.step = 3 * self.color_image.width
 			self.semantic_image.is_bigendian = False
 
+		if not os.path.exists('/Titan/dataset/cloudrender/test_underground_parking/data_to_hd/rgb_frame_train'):
+			os.makedirs('/Titan/dataset/cloudrender/test_underground_parking/data_to_hd/rgb_frame_train')
+		if not os.path.exists('/Titan/dataset/cloudrender/test_underground_parking/data_to_hd/depth_frame_train'):
+			os.makedirs('/Titan/dataset/cloudrender/test_underground_parking/data_to_hd/depth_frame_train')
+
+		cnt = 0
 		r = rospy.Rate(default_sim_settings["frame_rate"])
 		while not rospy.is_shutdown():
-			with DirectCapture(self.gl_resolution) as capturing:
+			with DirectCapture(self.gl_resolution) as capturing, \
+					 open('/Titan/dataset/cloudrender/test_underground_parking/data_to_hd/pose.txt', 'a') as pose_file:
 				self.gl_shadowmap.camera.init_extrinsics(pose=self.gl_shadowmap_offset)
 				self.gl_camera.init_extrinsics(self.quat_w2c, self.trans_w2c)
 				gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
@@ -223,6 +230,8 @@ class DemoRunner:
 					color_img = capturing.request_color()
 					if color_img is not None:
 						self.publish_color_observation(color_img)
+						image = Image.fromarray(color_img)
+						image.save('/Titan/dataset/cloudrender/test_underground_parking/data_to_hd/rgb_frame_train/{:06}.png'.format(cnt))
 
 				if self._sim_settings["depth_sensor"]:
 					depth_img = capturing.request_depth()
@@ -232,11 +241,19 @@ class DemoRunner:
 						linear_depth_buffer = (2.0 * near_plane * far_plane) / \
 																	(far_plane + near_plane - (2.0 * depth_img - 1.0) * (far_plane - near_plane))
 						self.publish_depth_observation(linear_depth_buffer)
+						depth_normalized = (depth_img * 1000).astype(np.uint16)
+						image = Image.fromarray(depth_normalized)
+						image.save('/Titan/dataset/cloudrender/test_underground_parking/data_to_hd/depth_frame_train/{:06}.png'.format(cnt))
 
 				if self._sim_settings["semantic_sensor"]:
 					pass
 					# self.publish_semantic_observation(semantic_img)
+
+				pose_file.write('{} {} {} {} {} {} {}\n'.format(\
+					self.quat_w2c[0], self.quat_w2c[1], self.quat_w2c[2], self.quat_w2c[3], \
+					self.trans_w2c[0], self.trans_w2c[1], self.trans_w2c[2]))
 		
+				cnt += 1
 				print("Publishing at time: " + str(self.time))
 				r.sleep()
 
