@@ -31,7 +31,7 @@ package_path = '../../cloudrender'
 if package_path not in sys.path:
     sys.path.append(package_path)	
 from cloudrender.capturing import DirectCapture
-import cloudrender_rgbd_image as cr_rgbd
+import meshrender_rgbd_image as mr_rgbd
 from cloudrender.camera import PerspectiveCameraModel
 
 default_sim_settings = {
@@ -90,17 +90,17 @@ class DemoRunner:
 
 	def setup_opengl(self):
 		self.gl_resolution = (self._sim_settings['width'], self._sim_settings['height'])
-		self.gl_logger = cr_rgbd.initialize_logging()
-		self.gl_context = cr_rgbd.initialize_context(self.gl_resolution)
-		self.gl_main_fb = cr_rgbd.setup_framebuffers(self.gl_resolution)
-		cr_rgbd.setup_opengl(self.gl_resolution)
+		self.gl_logger = mr_rgbd.initialize_logging()
+		self.gl_context = mr_rgbd.initialize_context(self.gl_resolution)
+		self.gl_main_fb = mr_rgbd.setup_framebuffers(self.gl_resolution)
+		mr_rgbd.setup_opengl(self.gl_resolution)
 		self.gl_camera = PerspectiveCameraModel()
 		self.gl_camera.init_intrinsics(self.gl_resolution, fov=self._sim_settings['fov'], \
 																   far=self._sim_settings['far_plane'], near=self._sim_settings['near_plane'])
-		cr_rgbd.create_camera(self.gl_resolution)
-		self.gl_main_scene = cr_rgbd.create_scene()
-		cr_rgbd.load_pointcloud(self.gl_main_scene, self.gl_camera, self._sim_settings['scene'])
-		self.gl_shadowmap, self.gl_shadowmap_offset = cr_rgbd.setup_lighting(self.gl_main_scene)
+		mr_rgbd.create_camera(self.gl_resolution)
+		self.gl_main_scene = mr_rgbd.create_scene()
+		mr_rgbd.load_mesh(self.gl_main_scene, self.gl_camera, self._sim_settings['scene'])
+		self.gl_shadowmap, self.gl_shadowmap_offset = mr_rgbd.setup_lighting(self.gl_main_scene)
 		print('Finish loading pointcloud')
 
 	def publish_camera_info(self, msg):

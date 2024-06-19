@@ -54,7 +54,7 @@ class DepthImageToPointCloud:
         pointcloud.points = o3d.utility.Vector3dVector(points)
 
         # Save the point cloud to a file
-        o3d.io.write_point_cloud("/Titan/dataset/cloudrender/test_assets/depth_points.pcd", pointcloud)
+        o3d.io.write_point_cloud("/Titan/dataset/cloudrender/test_underground_parking/depth_points.pcd", pointcloud)
         rospy.loginfo("Point cloud saved as output_pointcloud.pcd")
 
 if __name__ == '__main__':
