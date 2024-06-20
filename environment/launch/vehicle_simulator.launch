@@ -1,6 +1,6 @@
 <launch>
   <!-- Base Parameter -->
-  <arg name="environment_directory" default="/Titan/dataset/benchmark_visual_nav/fpv2/underground_parking_01"/>
+  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/fpv2/underground_parking_01"/>
 
   <!-- Navigation -->
   <arg name="sensorOffsetX" default="0"/>

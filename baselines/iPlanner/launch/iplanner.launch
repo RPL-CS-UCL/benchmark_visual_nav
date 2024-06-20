@@ -1,0 +1,23 @@
+<launch>
+    <!-- Base Parameters -->
+    <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
+    <arg name="rgb_topic" default="/rgbd_camera/color/image"/>
+    <arg name="depth_topic" default="/rgbd_camera/depth/image"/>
+    <arg name="rviz_path" default="default.rviz"/>
+
+    <!-- Navigation -->
+    <arg name="config" default="vehicle_sim"/>
+    <arg name="rosbag" default="false"/>
+    <arg name="use_rviz" default="true"/>
+
+    <node pkg="iplanner_node" type="iplanner_node.py" name="iplanner_node" output="screen">
+        <rosparam command="load" file="$(arg project_directory)/baselines/iPlanner/config/$(arg config).yaml"/>
+        <remap from="/rgbd_camera/color/image" to="$(arg rgb_topic)" />
+        <remap from="/rgbd_camera/depth/image" to="$(arg depth_topic)" />
+    </node>
+
+    <group if="$(arg use_rviz)">
+        <node type="rviz" name="iplanner_rviz" pkg="rviz" 
+              args="-d $(arg project_directory)/baselines/iPlanner/rviz/$(arg rviz_path)" respawn="false"/>
+    </group>
+</launch>

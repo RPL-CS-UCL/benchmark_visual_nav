@@ -109,7 +109,8 @@ class DemoRunner:
 
 	def publish_camera_info(self, msg):
 		msg.header.stamp = rospy.Time.from_sec(self.time)		
-		self.camera_info_pub.publish(msg)
+		self.color_camera_info.publish(msg)
+		self.depth_camera_info.publish(msg)
 
 	def publish_color_observation(self, color_obs):
 		from cv_bridge import CvBridge
@@ -163,7 +164,8 @@ class DemoRunner:
 		self.time = 0
 
 		if self._sim_settings["camera_info"]:
-			self.camera_info_pub = rospy.Publisher("/cloudrender_camera/camera_info", CameraInfo, queue_size=2)
+			self.color_camera_info = rospy.Publisher("/cloudrender_camera/color/camera_info", CameraInfo, queue_size=2)
+			self.depth_camera_info = rospy.Publisher("/cloudrender_camera/depth/camera_info", CameraInfo, queue_size=2)
 
 		if self._sim_settings["color_sensor"]:
 			self.color_image_pub = rospy.Publisher("/cloudrender_camera/color/image", ROS_Image, queue_size=2)
