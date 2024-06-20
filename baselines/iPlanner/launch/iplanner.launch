@@ -9,7 +9,7 @@
     <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
     <arg name="rgb_topic" default="/rgbd_camera/color/image"/>
     <arg name="depth_topic" default="/rgbd_camera/depth/image"/>
-    <arg name="rviz_path" default="default.rviz"/>
+    <arg name="rviz_name" default="default.rviz"/>
 
     <!-- Navigation -->
     <arg name="config" default="vehicle_sim"/>
@@ -24,6 +24,6 @@
 
     <group if="$(arg use_rviz)">
         <node type="rviz" name="iplanner_rviz" pkg="rviz" 
-              args="-d $(arg project_directory)/baselines/iPlanner/rviz/$(arg rviz_path)" respawn="false"/>
+              args="-d $(arg project_directory)/baselines/iPlanner/rviz/$(arg rviz_name)" respawn="false"/>
     </group>
 </launch>
