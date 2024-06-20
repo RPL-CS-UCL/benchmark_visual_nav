@@ -61,9 +61,10 @@ class RGBD_Collector():
 
 						# print(quat_w2c)
 						# print(trans_w2c)
-						pose_file.write('{:3f} {:3f} {:3f} {:3f} {:3f} {:3f} {:3f}'.format(\
+						pose_file.write('{:3f} {:3f} {:3f} {:3f} {:3f} {:3f} {:3f}\n'.format(\
 							quat_w2c[0], quat_w2c[1], quat_w2c[2], quat_w2c[3], trans_w2c[0], trans_w2c[1], trans_w2c[2]))
 				self.cnt += 1
+				print('Save {}th RGBD images and poses to {} at time {:3f}'.format(self.cnt, self.rgb_path, rgb_msg.header.stamp.to_sec()))
 
 	def initialize_ros_node(self):
 			rospy.init_node('data_synchronizer', anonymous=True)
