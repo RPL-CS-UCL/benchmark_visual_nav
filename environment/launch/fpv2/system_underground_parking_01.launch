@@ -7,8 +7,8 @@
   <arg name="use_rviz" default="true" />
 
   <!-- Navigation -->
-  <arg name="vehicleHeight" default="0.5"/>
-  <arg name="cameraOffsetZ" default="0.5"/>
+  <arg name="vehicleHeight" default="1.0"/>
+  <arg name="cameraOffsetZ" default="0.0"/>
   <arg name="vehicleX" default="-357.7"/>
   <arg name="vehicleY" default="-28.926"/>
   <arg name="terrainZ" default="-2.15"/>

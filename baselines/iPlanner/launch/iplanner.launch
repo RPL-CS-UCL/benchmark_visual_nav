@@ -1,3 +1,9 @@
+<!-- Usage: -->
+<!-- roslaunch iplanner.launch \ 
+        rgb_topic:=/cloudrender_camera/color/image \
+        depth_topic:=/cloudrender_camera/depth/image \
+        rviz_path:=cloudrender.rviz -->
+
 <launch>
     <!-- Base Parameters -->
     <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>

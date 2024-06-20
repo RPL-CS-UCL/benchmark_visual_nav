@@ -42,7 +42,7 @@ default_sim_settings = {
 	"fov": 70.0, # horizontal FOV
 	"far_plane": 15.0,
 	"near_plane": 0.05,
-	"camera_offset_z": 0.5, # camera z-offset
+	"camera_offset_z": 0.0, # camera z-offset
 	"camera_info": True,
 	"color_sensor": True,  # RGB sensor
 	"depth_sensor": True,  # depth sensor
@@ -101,7 +101,7 @@ class DemoRunner:
 		self.gl_camera = PerspectiveCameraModel()
 		self.gl_camera.init_intrinsics(self.gl_resolution, fov=self._sim_settings['fov'], \
 																   far=self._sim_settings['far_plane'], near=self._sim_settings['near_plane'])
-		mr_rgbd.create_camera(self.gl_resolution)
+		mr_rgbd.create_camera(self._sim_settings['fov'], self.gl_resolution)
 		self.gl_main_scene = mr_rgbd.create_scene()
 		mr_rgbd.load_mesh(self.gl_main_scene, self.gl_camera, self._sim_settings['scene'])
 		self.gl_shadowmap, self.gl_shadowmap_offset = mr_rgbd.setup_lighting(self.gl_main_scene)

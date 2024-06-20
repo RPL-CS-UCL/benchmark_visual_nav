@@ -2,22 +2,27 @@
 
   <!-- Base Parameters -->
   <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
-  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/cmu_environment/forest"/>
-  <arg name="world_name" default="forest"/>
+  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/matterport/17DRP5sb8fy"/>
+  <arg name="world_name" default="matterport"/>
   <arg name="use_rviz" default="true" />
 
   <!-- Navigation -->
-  <arg name="vehicleHeight" default="0.75"/>
-  <arg name="cameraOffsetZ" default="0"/>
+  <arg name="vehicleHeight" default="0.5"/>
+  <arg name="cameraOffsetZ" default="0.5"/>
   <arg name="vehicleX" default="0"/>
   <arg name="vehicleY" default="0"/>
   <arg name="terrainZ" default="0"/>
   <arg name="vehicleYaw" default="0"/>
   <arg name="gazebo_gui" default="false"/>
   <arg name="checkTerrainConn" default="false"/>
-  <arg name="useLocalPlanner" default="true" />
+  <arg name="useLocalPlanner" default="true"/>
 
   <include file="$(find ps3joy)/launch/ps3.launch" />
+
+  <!-- TODO: -->
+  <!-- <include file="$(find waypoint_converter)/launch/waypoint_converter.launch" >
+    <arg name="world_name" value="$(arg world_name)"/>
+  </include> -->
 
   <!-- Customized launch: use the uniform path_follower in CMU-Navigation -->
   <group if="$(arg useLocalPlanner)">
@@ -32,7 +37,7 @@
         <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
     </include>  
   </group>
-  
+
   <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
 
   <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >
@@ -54,15 +59,22 @@
 
   <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" />
 
+  <!-- TODO: -->
+  <!-- <include file="$(find semantic_scan_generation)/launch/semantic_scan_generation.launch" >
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+  </include> -->
+
   <!-- Customized launch -->
   <include file="$(arg project_directory)/environment/launch/visualization_tools.launch" >
     <arg name="environment_directory" value="$(arg environment_directory)"/>
     <arg name="world_name" value="$(arg world_name)"/>
   </include>
 
+  <include file="$(find segmentation_proc)/launch/segmentation_proc.launch" />
+
   <group if="$(arg use_rviz)">
     <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" 
-          args="-d $(arg project_directory)/environment/rviz/vehicle_simulator.rviz" respawn="true"/>
+          args="-d $(arg project_directory)/environment/rviz/vehicle_simulator_matterport.rviz" respawn="true"/>
   </group>
 
 </launch>
