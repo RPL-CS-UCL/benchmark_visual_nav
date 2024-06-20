@@ -1,0 +1,69 @@
+<launch>
+
+  <!-- Base Parameters -->
+  <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
+  <arg name="environment_directory" default="/Titan/dataset/benchmark_visual_nav/fpv2/underground_parking_01"/>
+  <arg name="world_name" default="underground_parking_01"/>
+  <arg name="use_rviz" default="true" />
+
+  <!-- Navigation -->
+  <arg name="vehicleHeight" default="0.5"/>
+  <arg name="cameraOffsetZ" default="0.5"/>
+  <arg name="vehicleX" default="-357.7"/>
+  <arg name="vehicleY" default="-28.926"/>
+  <arg name="terrainZ" default="-2.15"/>
+  <arg name="vehicleYaw" default="3.1415926"/>
+  <arg name="gazebo_gui" default="false"/>
+  <arg name="checkTerrainConn" default="false"/>
+  <arg name="useLocalPlanner" default="true" />  
+
+  <include file="$(find ps3joy)/launch/ps3.launch" />
+
+  <group if="$(arg useLocalPlanner)">
+    <include file="$(find local_planner)/launch/local_planner.launch" >
+      <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+      <arg name="goalX" value="$(arg vehicleX)"/>
+      <arg name="goalY" value="$(arg vehicleY)"/>
+    </include>
+  </group>
+
+  <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
+
+  <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >
+    <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+  </include>
+
+  <include file="$(arg project_directory)/environment/launch/vehicle_simulator.launch" >
+    <arg name="environment_directory" value="$(arg environment_directory)"/>
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="vehicleHeight" value="$(arg vehicleHeight)"/>
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    <arg name="vehicleX" value="$(arg vehicleX)"/>
+    <arg name="vehicleY" value="$(arg vehicleY)"/>
+    <arg name="terrainZ" value="$(arg terrainZ)"/>
+    <arg name="vehicleYaw" value="$(arg vehicleYaw)"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+  </include>
+
+  <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" />
+
+  <node pkg="visualization_tools" type="visualizationTools" name="visualizationTools" output="screen">
+    <param name="metricFile" type="string" value="$(arg environment_directory)/log/metrics" />
+    <param name="trajFile" type="string" value="$(arg environment_directory)/log/trajectory" />
+    <param name="mapFile" type="string" 
+           value="$(arg environment_directory)/navigation_environment/preview/pointcloud.ply" />
+    <param name="overallMapVoxelSize" type="double" value="0.5" />
+    <param name="exploredAreaVoxelSize" type="double" value="0.3" />
+    <param name="exploredVolumeVoxelSize" type="double" value="0.5" />
+    <param name="transInterval" type="double" value="0.2" />
+    <param name="yawInterval" type="double" value="10.0" />
+    <param name="overallMapDisplayInterval" type="int" value="2" />
+    <param name="exploredAreaDisplayInterval" type="int" value="1" />
+  </node>
+
+  <group if="$(arg use_rviz)">
+    <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" 
+          args="-d $(arg project_directory)/environment/rviz/vehicle_simulator_cloudrender.rviz" respawn="true"/>
+  </group>
+
+</launch>

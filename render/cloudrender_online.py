@@ -47,7 +47,7 @@ default_sim_settings = {
 	"color_sensor": True,  # RGB sensor
 	"depth_sensor": True,  # depth sensor
 	"semantic_sensor": False,  # semantic sensor
-	"scene": "/Titan/dataset/cloudrender/test_canteen/pointcloud.ply",
+	"scene": "/Titan/dataset/cloudrender/test_canteen/pointcloud.ply"
 }
 
 parser = argparse.ArgumentParser()
@@ -86,7 +86,7 @@ class DemoRunner:
 	def __init__(self, sim_settings, simulator_demo_type):
 		self.set_sim_settings(sim_settings)
 
-		self.quat_w2c = np.array([0.5, 0.5, -0.5, -0.5])
+		self.quat_w2c = np.array([0.5, 0.5, -0.5, -0.5]) # this offset is due to OpenGL
 		self.trans_w2c = np.array([0.0, 0.0, 0.0])
 
 	def set_sim_settings(self, sim_settings):
