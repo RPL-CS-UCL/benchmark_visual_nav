@@ -2,7 +2,7 @@
 
   <!-- Base Parameters -->
   <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
-  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/matterport/EDJbREhghzL"/>
+  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/matterport/B6ByNegPMK"/>
   <arg name="world_name" default="matterport"/>
   <arg name="use_rviz" default="true" />
   
@@ -11,9 +11,9 @@
   <!-- Navigation -->
   <arg name="vehicleHeight" default="0.5"/>
   <arg name="cameraOffsetZ" default="0.5"/>
-  <arg name="vehicleX" default="0"/>
-  <arg name="vehicleY" default="0"/>
-  <arg name="terrainZ" default="0"/>
+  <arg name="vehicleX" default="65"/>
+  <arg name="vehicleY" default="22"/>
+  <arg name="terrainZ" default="0.0"/>
   <arg name="vehicleYaw" default="0"/>
   <arg name="gazebo_gui" default="false"/>
   <arg name="checkTerrainConn" default="false"/>
