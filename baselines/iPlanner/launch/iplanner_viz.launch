@@ -1,0 +1,34 @@
+<!-- Usage: -->
+<!-- roslaunch iplanner.launch \ 
+        rgb_topic:=/cloudrender_camera/color/image \
+        depth_topic:=/cloudrender_camera/depth/image \
+        rviz_path:=cloudrender.rviz -->
+
+<launch>
+    <!-- Base Parameters -->
+    <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
+    <arg name="rgb_topic" default="/rgbd_camera/color/image"/>
+    <arg name="depth_topic" default="/rgbd_camera/depth/image"/>
+    <arg name="rviz_name" default="default.rviz"/>
+
+    <!-- Navigation -->
+    <arg name="config" default="vehicle_sim"/>
+    <arg name="rosbag" default="false"/>
+    <arg name="use_rviz" default="true"/>
+    <arg name="cameraOffsetZ" default="0"/>
+
+    <node pkg="iplanner_node" type="iplanner_viz.py" name="iplanner_node" output="screen">
+        <rosparam command="load" file="$(arg project_directory)/baselines/iPlanner/config/$(arg config).yaml"/>
+        <remap from="/rgbd_camera/color/image" to="$(arg rgb_topic)" />
+        <remap from="/rgbd_camera/depth/image" to="$(arg depth_topic)" />
+    </node>
+
+    <include file="$(arg project_directory)/environment/launch/path_follower_front.launch" >
+        <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    </include>
+
+    <group if="$(arg use_rviz)">
+        <node type="rviz" name="iplanner_rviz" pkg="rviz" 
+              args="-d $(arg project_directory)/baselines/iPlanner/rviz/$(arg rviz_name)" respawn="false"/>
+    </group>
+</launch>
