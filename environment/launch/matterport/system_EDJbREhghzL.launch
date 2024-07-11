@@ -2,18 +2,18 @@
 
   <!-- Base Parameters -->
   <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
-  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/matterport/17DRP5sb8fy"/>
+  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/matterport/EDJbREhghzL"/>
   <arg name="world_name" default="matterport"/>
   <arg name="use_rviz" default="true" />
-
+  
   <env name="GAZEBO_MODEL_PATH" value="$GAZEBO_MODEL_PATH:$(arg environment_directory)" />
 
   <!-- Navigation -->
   <arg name="vehicleHeight" default="0.5"/>
   <arg name="cameraOffsetZ" default="0.5"/>
   <arg name="vehicleX" default="0"/>
-  <arg name="vehicleY" default="0"/>
-  <arg name="terrainZ" default="0"/>
+  <arg name="vehicleY" default="-2.25"/>
+  <arg name="terrainZ" default="3.14"/>
   <arg name="vehicleYaw" default="0"/>
   <arg name="gazebo_gui" default="false"/>
   <arg name="checkTerrainConn" default="false"/>

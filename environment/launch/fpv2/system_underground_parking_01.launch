@@ -6,6 +6,8 @@
   <arg name="world_name" default="underground_parking_01"/>
   <arg name="use_rviz" default="true" />
 
+  <env name="GAZEBO_MODEL_PATH" value="$GAZEBO_MODEL_PATH:$(arg environment_directory)" />
+
   <!-- Navigation -->
   <arg name="vehicleHeight" default="1.0"/>
   <arg name="cameraOffsetZ" default="0.0"/>
