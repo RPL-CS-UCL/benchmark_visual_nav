@@ -11,8 +11,8 @@
   <!-- Navigation -->
   <arg name="vehicleHeight" default="0.5"/>
   <arg name="cameraOffsetZ" default="0.5"/>
-  <arg name="vehicleX" default="65"/>
-  <arg name="vehicleY" default="22"/>
+  <arg name="vehicleX" default="0.0"/>
+  <arg name="vehicleY" default="0.0"/>
   <arg name="terrainZ" default="0.0"/>
   <arg name="vehicleYaw" default="0"/>
   <arg name="gazebo_gui" default="false"/>
@@ -20,11 +20,6 @@
   <arg name="useLocalPlanner" default="true"/>
 
   <include file="$(find ps3joy)/launch/ps3.launch" />
-
-  <!-- TODO: -->
-  <!-- <include file="$(find waypoint_converter)/launch/waypoint_converter.launch" >
-    <arg name="world_name" value="$(arg world_name)"/>
-  </include> -->
 
   <!-- Customized launch: use the uniform path_follower in CMU-Navigation -->
   <group if="$(arg useLocalPlanner)">

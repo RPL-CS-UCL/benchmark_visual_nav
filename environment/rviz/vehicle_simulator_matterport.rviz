@@ -20,7 +20,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: RegScan
+    SyncSource: ""
   - Class: rviz/ControlPanel
     Name: ControlPanel
 Preferences:
@@ -499,5 +499,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1697
-  X: 924
-  Y: 60
+  X: 921
+  Y: 29

@@ -21,11 +21,6 @@
 
   <include file="$(find ps3joy)/launch/ps3.launch" />
 
-  <!-- TODO: -->
-  <!-- <include file="$(find waypoint_converter)/launch/waypoint_converter.launch" >
-    <arg name="world_name" value="$(arg world_name)"/>
-  </include> -->
-
   <!-- Customized launch: use the uniform path_follower in CMU-Navigation -->
   <group if="$(arg useLocalPlanner)">
     <include file="$(find local_planner)/launch/local_planner.launch" >
