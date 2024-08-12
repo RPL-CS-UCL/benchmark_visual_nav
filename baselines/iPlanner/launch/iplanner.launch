@@ -1,25 +1,28 @@
-<!-- Usage: -->
-<!-- roslaunch iplanner.launch \ 
+<!-- 
+    roslaunch iplanner.launch \ 
         rgb_topic:=/cloudrender_camera/color/image \
         depth_topic:=/cloudrender_camera/depth/image \
-        rviz_path:=cloudrender.rviz -->
+        rviz_path:=cloudrender.rviz 
+-->
+
+<!-- 
+    roslaunch iplanner.launch \ 
+        rgb_topic:=/habitat_camera/color/image \
+        depth_topic:=/habitat_camera/depth/image \
+        rviz_path:=cloudrender.rviz 
+-->
 
 <launch>
     <!-- Base Parameters -->
     <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
-    <arg name="rgb_topic" default="/rgbd_camera/color/image"/>
-    <arg name="depth_topic" default="/rgbd_camera/depth/image"/>
-    <arg name="rviz_name" default="default.rviz"/>
-
-    <!-- Navigation -->
-    <arg name="config" default="vehicle_sim"/>
+    <arg name="rviz_name" default="habitat.rviz"/> <!-- default.rviz, habitat.rviz -->
     <arg name="rosbag" default="false"/>
     <arg name="use_rviz" default="true"/>
 
+    <!-- Navigation -->
+    <arg name="config" default="vehicle_sim"/>
     <node pkg="iplanner_node" type="iplanner_node.py" name="iplanner_node" output="screen">
         <rosparam command="load" file="$(arg project_directory)/baselines/iPlanner/config/$(arg config).yaml"/>
-        <remap from="/rgbd_camera/color/image" to="$(arg rgb_topic)" />
-        <remap from="/rgbd_camera/depth/image" to="$(arg depth_topic)" />
     </node>
 
     <group if="$(arg use_rviz)">

@@ -396,7 +396,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 58.97214889526367
+      Scale: 122.47228240966797
       Target Frame: vehicle
       X: 2.418039083480835
       Y: -0.526682436466217
@@ -419,7 +419,7 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1697
-  X: 43
-  Y: 732
+  X: 916
+  Y: 723
   iPlannerImage:
     collapsed: false
