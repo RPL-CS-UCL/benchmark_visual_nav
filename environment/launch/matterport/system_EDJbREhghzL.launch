@@ -32,8 +32,8 @@
   </group>
   <group unless="$(arg useLocalPlanner)">
     <include file="$(arg project_directory)/environment/launch/path_follower_front.launch" >
-        <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
-        <arg name="odomTopic" value="$(arg odomTopic)"/>
+      <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+      <arg name="odomTopic" value="$(arg odomTopic)"/>
     </include>  
   </group>
 
@@ -64,7 +64,7 @@
     <arg name="world_name" value="$(arg world_name)"/>
   </include>
 
-  <include file="$(find segmentation_proc)/launch/segmentation_proc.launch" />
+  <!-- <include file="$(find segmentation_proc)/launch/segmentation_proc.launch" /> -->
 
   <group if="$(arg use_rviz)">
     <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" 

@@ -5,7 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded: ~
       Splitter Ratio: 0.5515267252922058
-    Tree Height: 451
+    Tree Height: 443
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -347,8 +347,8 @@ Visualization Manager:
     - Alpha: 0.20000000298023224
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 2.418485164642334
-        Min Value: -0.0292433500289917
+        Max Value: 2.4809701442718506
+        Min Value: -0.019353210926055908
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -447,7 +447,7 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1281
-  X: 43
-  Y: 590
+  X: 911
+  Y: 601
   iPlannerImage:
     collapsed: false
