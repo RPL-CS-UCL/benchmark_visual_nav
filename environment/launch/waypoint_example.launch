@@ -1,13 +1,15 @@
 <launch>
 
-  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/matterport/17DRP5sb8fy"/>
+  <arg name="environment_directory" default="$(find benchmark_visual_nav)/data/matterport/17DRP5sb8fy"/>
   <arg name="world_name" default="matterport"/>
+  <arg name="waypoint_file" default="waypoints.ply"/>
+  <arg name="boundary_file" default="boundary.ply"/>
 
   <node pkg="waypoint_example" type="waypointExample" name="waypointExample" output="screen" required="true">
     <param name="waypoint_file_dir" type="string" 
-           value="$(arg environment_directory)/waypoint_example/waypoints.ply" />
+           value="$(arg environment_directory)/waypoint_example/$(arg waypoint_file)" />
     <param name="boundary_file_dir" type="string" 
-           value="$(arg environment_directory)/waypoint_example/boundary.ply" />
+           value="$(arg environment_directory)/waypoint_example/$(arg boundary_file)" />
     <param name="waypointXYRadius" type="double" value="0.3" />
     <param name="waypointZBound" type="double" value="5.0" />
     <param name="waitTime" type="double" value="0" />

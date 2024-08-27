@@ -1,8 +1,8 @@
 <launch>
 
   <!-- Base Parameters -->
-  <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
-  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/matterport/17DRP5sb8fy"/>
+  <arg name="project_directory" default="$(find benchmark_visual_nav)"/>
+  <arg name="environment_directory" default="$(find benchmark_visual_nav)/data/matterport/17DRP5sb8fy"/>
   <arg name="world_name" default="matterport"/>
   <arg name="use_rviz" default="true" />
 
