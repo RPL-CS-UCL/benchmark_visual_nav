@@ -1,6 +1,8 @@
 <launch>
 
-  <arg name="environment_directory" default="$(find benchmark_visual_nav)/data/matterport/17DRP5sb8fy"/>
+  <!-- Base Parameter -->
+  <arg name="env_id" default="17DRP5sb8fy" />
+  <arg name="environment_directory" default="$(find benchmark_visual_nav)/data/matterport/$(arg env_id)"/>
   <arg name="world_name" default="matterport"/>
   <arg name="waypoint_file" default="waypoints.ply"/>
   <arg name="boundary_file" default="boundary.ply"/>

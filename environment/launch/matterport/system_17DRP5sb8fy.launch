@@ -11,7 +11,7 @@
   <!-- Navigation -->
   <arg name="vehicleHeight" default="0.75"/>
   <arg name="cameraOffsetZ" default="0.0"/>
-  <arg name="vehicleX" default="0"/>
+  <arg name="vehicleX" default="0.3"/>
   <arg name="vehicleY" default="0"/>
   <arg name="terrainZ" default="0"/>
   <arg name="vehicleYaw" default="0"/>
