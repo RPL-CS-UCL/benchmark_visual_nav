@@ -28,7 +28,7 @@
     </include>
   </group>
   <group unless="$(arg useLocalPlanner)">
-    <include file="$(arg project_directory)/environment/launch/path_follower_omni.launch" >
+    <include file="$(arg project_directory)/environment/launch/path_follower_front.launch" >
         <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
     </include>  
   </group>
