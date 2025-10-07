@@ -1,18 +1,25 @@
 <launch>
 
+  <!-- Base Parameters -->
+  <arg name="project_directory" default="/Titan/code/robohike_ws/src/benchmark_visual_nav"/>
+  <arg name="environment_directory" default="/Titan/dataset/data_benchmark_visual_nav/cmu_environment/garage"/>
   <arg name="world_name" default="garage"/>
+  <arg name="use_rviz" default="true" />
+
+  <!-- Navigation -->
   <arg name="vehicleHeight" default="0.75"/>
   <arg name="cameraOffsetZ" default="0"/>
   <arg name="vehicleX" default="0"/>
   <arg name="vehicleY" default="0"/>
   <arg name="terrainZ" default="0"/>
   <arg name="vehicleYaw" default="0"/>
+  <arg name="checkTerrainConn" default="false"/>
   <arg name="gazebo_gui" default="false"/>
-  <arg name="checkTerrainConn" default="true"/>
   <arg name="useLocalPlanner" default="true"/>
 
   <include file="$(find ps3joy)/launch/ps3.launch" />
 
+  <!-- Customized launch: use the uniform path_follower in CMU-Navigation -->
   <group if="$(arg useLocalPlanner)">
     <include file="$(find local_planner)/launch/local_planner.launch" >
       <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
@@ -20,14 +27,21 @@
       <arg name="goalY" value="$(arg vehicleY)"/>
     </include>
   </group>
-
+  <group unless="$(arg useLocalPlanner)">
+    <include file="$(arg project_directory)/environment/launch/path_follower_omni.launch" >
+        <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    </include>  
+  </group>
+  
   <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
 
   <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >
     <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
   </include>
 
-  <include file="$(find vehicle_simulator)/launch/vehicle_simulator.launch" >
+  <!-- Customized launch -->
+  <include file="$(arg project_directory)/environment/launch/vehicle_simulator.launch" >
+    <arg name="environment_directory" value="$(arg environment_directory)"/>
     <arg name="world_name" value="$(arg world_name)"/>
     <arg name="vehicleHeight" value="$(arg vehicleHeight)"/>
     <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
@@ -40,10 +54,15 @@
 
   <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" />
 
-  <include file="$(find visualization_tools)/launch/visualization_tools.launch" >
+  <!-- Customized launch -->
+  <include file="$(arg project_directory)/environment/launch/visualization_tools.launch" >
+    <arg name="environment_directory" value="$(arg environment_directory)"/>
     <arg name="world_name" value="$(arg world_name)"/>
   </include>
 
-  <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
+  <group if="$(arg use_rviz)">
+    <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" 
+          args="-d $(arg project_directory)/environment/rviz/vehicle_simulator.rviz" respawn="true"/>
+  </group>
 
 </launch>
