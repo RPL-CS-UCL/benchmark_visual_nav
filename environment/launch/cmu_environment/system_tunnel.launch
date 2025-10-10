@@ -16,7 +16,8 @@
   <arg name="checkTerrainConn" default="false"/>
   <arg name="gazebo_gui" default="false"/>
   <arg name="useLocalPlanner" default="true" />
-
+  <arg name="useMPCPathFollower" default="false"/>
+  
   <include file="$(find ps3joy)/launch/ps3.launch" />
 
   <!-- Customized launch: use the uniform path_follower in CMU-Navigation -->
@@ -28,24 +29,15 @@
     </include>
   </group>
   <group unless="$(arg useLocalPlanner)">
-    <include file="$(arg project_directory)/environment/launch/path_follower_omni.launch" >
-        <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
-    </include>  
+    <group unless="$(arg useMPCPathFollower)">
+      <include file="$(arg project_directory)/environment/launch/path_follower_front.launch"/>
+    </group>
+    
+    <group if="$(arg useMPCPathFollower)">
+      <include file="$(arg project_directory)/environment/launch/mpc_path_follower_front.launch"/>
+    </group>
   </group>
   
-  <arg name="checkTerrainConn" default="false"/>
-  <arg name="useLocalPlanner" default="true"/>
-
-  <include file="$(find ps3joy)/launch/ps3.launch" />
-
-  <group if="$(arg useLocalPlanner)">
-    <include file="$(find local_planner)/launch/local_planner.launch" >
-      <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
-      <arg name="goalX" value="$(arg vehicleX)"/>
-      <arg name="goalY" value="$(arg vehicleY)"/>
-    </include>
-  </group>
-
   <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
 
   <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >

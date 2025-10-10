@@ -1,0 +1,38 @@
+<launch>
+
+  <arg name="odom_topic" default="/state_estimation"/>
+  <arg name="command_topic" default="/cmd_vel"/>
+  <arg name="path_topic" default="/path"/>
+  
+  <arg name="world_frame_id" default="map"/>
+  <arg name="robot_frame_id" default="vehicle"/>
+  
+  <arg name="max_speed" default="1.5"/>
+  <arg name="max_yaw_rate" default="90.0"/>
+  <arg name="autonomy_mode" default="true"/>
+  <arg name="autonomy_speed" default="1.5"/>
+  <arg name="joy_to_speed_delay" default="2.0"/>
+  <arg name="stop_time" default="5.0"/>
+  <arg name="use_inclination_to_stop" default="false"/>
+  <arg name="inclination_threshold" default="45.0"/>
+  <arg name="no_rotation_at_stop" default="false"/>
+
+  <node pkg="naviformer_path_follow" type="mpc_path_follower_ros1.py" name="mpc_path_follow" output="screen" required="true">
+    <param name="pub_skip_num" type="int" value="1" />
+    <param name="max_yaw_rate" type="double" value="$(arg max_yaw_rate)" />
+    <param name="max_speed" type="double" value="$(arg max_speed)" />
+    <param name="use_inclination_to_stop" type="bool" value="$(arg use_inclination_to_stop)" />
+    <param name="inclination_threshold" type="double" value="$(arg inclination_threshold)" />
+    <param name="stop_time" type="double" value="$(arg stop_time)" />
+    <param name="no_rotation_at_stop" type="bool" value="$(arg no_rotation_at_stop)" />
+    <param name="autonomy_mode" type="bool" value="$(arg autonomy_mode)" />
+    <param name="autonomy_speed" type="double" value="$(arg autonomy_speed)" />
+    <param name="joy_to_speed_delay" type="double" value="$(arg joy_to_speed_delay)" />
+    <param name="odom_topic" type="string" value="$(arg odom_topic)" />
+    <param name="command_topic" type="string" value="$(arg command_topic)" />
+    <param name="path_topic" type="string" value="$(arg path_topic)" />
+    <param name="world_frame_id" type="string" value="$(arg world_frame_id)" />
+    <param name="robot_frame_id" type="string" value="$(arg robot_frame_id)" />
+  </node>
+
+</launch>

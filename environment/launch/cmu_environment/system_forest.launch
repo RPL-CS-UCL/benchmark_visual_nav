@@ -13,9 +13,10 @@
   <arg name="vehicleY" default="0"/>
   <arg name="terrainZ" default="0"/>
   <arg name="vehicleYaw" default="0"/>
-  <arg name="gazebo_gui" default="false"/>
   <arg name="checkTerrainConn" default="false"/>
-  <arg name="useLocalPlanner" default="true" />
+  <arg name="gazebo_gui" default="false"/>
+  <arg name="useLocalPlanner" default="true"/>
+  <arg name="useMPCPathFollower" default="false"/>
 
   <include file="$(find ps3joy)/launch/ps3.launch" />
 
@@ -28,9 +29,13 @@
     </include>
   </group>
   <group unless="$(arg useLocalPlanner)">
-    <include file="$(arg project_directory)/environment/launch/path_follower.launch" >
-        <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
-    </include>  
+    <group unless="$(arg useMPCPathFollower)">
+      <include file="$(arg project_directory)/environment/launch/path_follower_front.launch"/>
+    </group>
+    
+    <group if="$(arg useMPCPathFollower)">
+      <include file="$(arg project_directory)/environment/launch/mpc_path_follower_front.launch"/>
+    </group>
   </group>
   
   <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
