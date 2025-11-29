@@ -1,2 +1,3 @@
-data
+data/*/navigation_environment/
+data/*/log/
 baselines_code
